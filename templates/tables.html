@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>таблицы</title><!--заголовок страницы-->
+</head>
+<body>
+    <h1>таблицы в базе данных</h1><!--заголовок-->
+    <ul>
+        {% for table in tables %}
+            <li><a href="{{ url_for('table', table_name=table) }}">{{ table }}</a></li><!--ссылка на таблицу-->
+        {% endfor %}
+    </ul>
+    <a href="/">на главную</a><!--ссылка на главную страницу-->
+</body>
+</html>

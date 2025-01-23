@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>excel to db</title><!--заголовок страницы-->
+</head>
+<body>
+    <h1>загрузить excel и создать базу данных</h1><!--заголовок-->
+    {% if error %}
+        <p style="color: red;">{{ error }}</p><!--вывод сообщения об ошибке, если есть-->
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        <label for="db_name">название базы данных:</label><br><!--лейбл для поля ввода имени базы данных-->
+        <input type="text" name="db_name" required><br><br><!--поле ввода имени базы данных-->
+        <label for="excel_file">выберите excel файл:</label><br><!--лейбл для поля выбора файла-->
+        <input type="file" name="excel_file" required><br><br><!--поле выбора файла-->
+        <button type="submit">создать базу данных</button><!--кнопка отправки формы-->
+    </form>
+</body>
+</html>
