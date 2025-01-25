@@ -7,28 +7,28 @@ app = Flask(__name__, template_folder='templates')#создаем flask-прил
 DATABASE_URI = ''#глобальная переменная для хранения uri базы данных
 
 def create_database(db_name):
-    """создает базу данных sqlite."""
+   #создает базу данных sqlite
     global DATABASE_URI
     DATABASE_URI = f'sqlite:///{db_name}.db'#формируем uri базы данных
     engine = create_engine(DATABASE_URI)#создаем движок базы данных
     return engine#возвращаем движок
 
 def excel_to_db(file_path, engine):
-    """читает excel файл и создает таблицы в бд."""
+    #читает excel файл и создает таблицы в бд
     with pd.ExcelFile(file_path) as xls:#используем менеджер контекста для автоматического закрытия файла
         for sheet_name in xls.sheet_names:#проходим по всем листам excel-файла
             df = pd.read_excel(xls, sheet_name=sheet_name)#читаем лист в pandas dataframe
             df.to_sql(sheet_name, engine, if_exists='replace', index=False)#записываем dataframe в таблицу sql, если есть - перезаписываем, без индексов
 
 def get_tables(engine):
-    """получает список таблиц из базы данных."""
+    #получает список таблиц из базы данных
     with engine.connect() as connection:
         result = connection.execute(text("SELECT name FROM sqlite_master WHERE type='table';")).fetchall()#выполняем sql запрос для получения имен таблиц
         tables = [row[0] for row in result]#формируем список имен таблиц
     return tables#возвращаем список
 
 def get_table_data(engine, table_name):
-    """получает данные из таблицы."""
+    #получает данные из таблицы
     with engine.connect() as connection:
         result = connection.execute(text(f"SELECT * FROM `{table_name}`;")).fetchall()
         columns = connection.execute(text(f"PRAGMA table_info('{table_name}');")).fetchall()
@@ -39,7 +39,7 @@ def get_table_data(engine, table_name):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    """обрабатывает главную страницу, загрузку excel и создание бд."""
+   #обрабатывает главную страницу, загрузку excel и создание бд
     if request.method == 'POST':#если форма отправлена методом post
         db_name = request.form['db_name']#получаем имя базы данных из формы
         excel_file = request.files['excel_file']#получаем excel-файл из формы
@@ -71,7 +71,7 @@ def index():
 
 @app.route('/tables')
 def tables():
-    """отображает список таблиц в базе данных."""
+    #отображает список таблиц в базе данных
     global DATABASE_URI
     if not DATABASE_URI:
         return 'база данных не создана', 404#если бд не создана - возвращаем ошибку
@@ -81,7 +81,7 @@ def tables():
 
 @app.route('/table/<table_name>')
 def table(table_name):
-    """отображает данные конкретной таблицы."""
+    #отображает данные конкретной таблицы
     global DATABASE_URI
     if not DATABASE_URI:
         return 'база данных не создана', 404#если бд не создана - возвращаем ошибку
