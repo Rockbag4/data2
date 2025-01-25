@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>таблица {{ table_name }}</title><!--заголовок страницы с именем таблицы-->
+</head>
+<body>
+    <h1>таблица: {{ table_name }}</h1><!--заголовок с именем таблицы-->
+    <table border="1">
+        <thead>
+            <tr>
+                {% for column in columns %}
+                    <th>{{ column }}</th><!--заголовок столбца-->
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    {% for cell in row %}
+                        <td>{{ cell }}</td><!--ячейка данных-->
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="{{ url_for('tables') }}">назад к списку таблиц</a><!--ссылка на список таблиц-->
+</body>
+</html>
